@@ -117,7 +117,7 @@
 			// If the field already has a value, then hide the label.
 			if (!_noVal(_field)) _label.hide();
 
-			_field.css({position:'relative', zIndex:defaults.baseZindex+1}).addClass('sl_field');
+			_field.css({ zIndex:defaults.baseZindex+1 }).addClass('sl_field');
 			_label.css({
 				left:defaults.labelLeft,
 				position:'absolute',
