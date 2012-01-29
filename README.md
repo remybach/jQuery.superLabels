@@ -31,19 +31,22 @@ If you find that you need to position the labels slightly differently, pass in `
 
 There are quite a number of options you can pass the plugin additional to the two I mentioned above:
 
-* `baseZindex` - The base z-index which we display on top of. (default: 0)
-* `duration` - Time of the slide in milliseconds. (default: 500)
-* `easingIn` -  The easing in function to use for the slide. (default: 'easeInOutCubic')
-* `easingOut` -  The easing out function to use for the slide. (default: 'easeInOutCubic')
-* `fadeDuration` - Duration of animation when it's fade only. (default: 250)
-* `opacity` - The opacity to fade the label to. (default: 0.5)
-* `labelLeft` - The distance from the left for the label. (default: 0)
-* `labelTop` - The distance from the top for the label. (default: 0)
-* `slide` - Whether or not to slide the label across the input field. (default: true)
-* `wrapSelector` - The selector for the element you have wrapping each field. (default: false)
-		This is used to find the label - use as a last resort. Rather make sure the field and label are next to each other in your markup, or failing that, that your labels use the `for` attribute that point to the field's `name` or `id`.
+* `baseZindex` - The base z-index which we display on top of. _(default: 0)_
+* `duration` - Time of the slide in milliseconds. _(default: 500)_
+* `easingIn` -  The easing in function to use for the slide. _(default: 'easeInOutCubic')_
+* `easingOut` -  The easing out function to use for the slide. _(default: 'easeInOutCubic')_
+* `fadeDuration` - Duration of animation when it's fade only. _(default: 250)_
+* `opacity` - The opacity to fade the label to. _(default: 0.5)_
+* `labelLeft` - The distance from the left for the label. _(default: 0)_
+* `labelTop` - The distance from the top for the label. _(default: 0)_
+* `slide` - Whether or not to slide the label across the input field. _(default: true)_
+* `wrapSelector` - The selector for the element you have wrapping each field. _(default: false)_
+	* This is used to find the label - use as a last resort. Rather make sure the field and label are next to each other in your markup, or failing that, that your labels use the `for` attribute that point to the field's `name` or `id`.
 
-License
--------
+#### Known Bugs
+
+Just a final note on a bug that I'm aware of and will get around to fixing soon. It has to do with the auto filling of form fields that is performed by some browsers. Currently the label stays visible and positioned on top of the field while the field has a value.
+
+#### License
 
 MIT License - [http://remybach.mit-license.org/](http://remybach.mit-license.org/ 'Link through to read my License.')
