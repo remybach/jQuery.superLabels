@@ -13,9 +13,9 @@
 		easingIn:($.easing.def ? 'easeInOutCubic' : false), // The easing in function to use for the slide.
 		easingOut:($.easing.def ? 'easeInOutCubic' : false), // The easing out function to use for the slide.
 		fadeDuration:250, // Duration of animation when it's fade only.
-		opacity:0.5, // The opacity to fade to if the label's going to slide.
-		labelTop:0, // The distance from the top for the label.
 		labelLeft:0, // The distance from the left for the label.
+		labelTop:0, // The distance from the top for the label.
+		opacity:0.5, // The opacity to fade the label to.
 		slide:true, // Whether or not to slide the label across the input field.
 		wrapSelector:false // The selector for the element you have wrapping each field.
 	};
