@@ -2,6 +2,7 @@
  *	Title: jQuery Super Labels Plugin - Give your forms a helping of awesome!
  *	Author: Rémy Bach
  *	Version: 1.0
+ *	License: http://remybach.mit-license.org
  *	Url: http://github.com/remybach/jQuery.superLabels
  *	Description:
  *	This plugin allows you to display your form labels on top of your form fields, saving you space on your page.
