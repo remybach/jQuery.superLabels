@@ -47,7 +47,6 @@ There are quite a number of options you can pass the plugin additional to the tw
 
 Below I'll list any bugs that I'm aware of and will try to get around to fixing as soon as I can.
 
-* Performance issue with animations queueing up in the `keyup` function when typing in the field.
 * Auto filling of form fields that is performed by some browsers causes a visual bug. Currently the label stays visible and positioned on top of the field while the field has a value.
 
 #### License

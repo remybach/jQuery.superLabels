@@ -162,12 +162,17 @@
 	_keyup = function() {
 		var _label = _getLabel(this);
 		var _o = 0;
+		
+		// Let's check whether there's even a need to animate anything first.
+		if ((_noVal(this) && _label.css('opacity') > 0) || (!_noVal(this) && _label.css('opacity') == 0 )) {
+			return false;
+		}
 
 		// If the field is empty and the label isn't showing, make it show up again.
 		if (_noVal(this) && !_label.css('opacity') == 0) {
 			_o = defaults.opacity;
 		}
-
+		
 		_label.animate({ opacity:_o }, defaults.fadeDuration, defaults.easingOut);
 	};
 
