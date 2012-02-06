@@ -184,7 +184,7 @@
 	_noVal = function(_el) { return $(_el).val() === ''; }
 	
 	// Console Functions (We need these to make sure this only displays when the console exists.)
-	_log = function(_msg) { if (console && console.log) console.log(_msg); }
-	_info = function(_msg) { if (console && console.info) console.info(_msg); }
-	_error = function(_msg) { if (console && console.error) console.error(_msg); }
+	_log = function() { if (console && console.log) console.log.apply(this, arguments); }
+	_info = function() { if (console && console.info) console.info.apply(this, arguments); }
+	_error = function() { if (console && console.error) console.error.apply(this, arguments); }
 })(jQuery);
