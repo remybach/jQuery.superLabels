@@ -25,6 +25,9 @@
 	var acceptedElements = ['select', 'textarea'];
 
 	$.fn.superLabels = function(options) {
+		// If this has been run on an empty set of elements, pop out.
+		if (this.length === 0) return false;
+		
 		// If options were passed in, merge them with the defaults.
 		$.extend(defaults, options || {});
 		if (!$.easing.def) { _info('Easing plugin not found - using standard jQuery animations.'); }
