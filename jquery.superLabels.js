@@ -62,12 +62,12 @@
 			// Don't even bother going further if this isn't one of the accepted input field types or elements.
 			if (!$.inArray(_field.attr('type'), acceptedInputTypes) && !$.inArray(_field[0].tagName.toLowerCase(), acceptedElements)) {
 				_info('Doh! The following '+this.tagName.toLowerCase()+' is not supported.', this);
-				return false;
+				return true; // Equivalent to continue in a normal for loop.
 			}
 			// Make sure this form field has a label
 			if (_label.length === 0) {
 				_info('Doh! The following '+this.tagName.toLowerCase()+' has no related label.', this);
-				return false;
+				return true;
 			}
 
 			// Position the labels above the form fields. Note:We do this here and not in the CSS for the purposes of progressive enhancement.
