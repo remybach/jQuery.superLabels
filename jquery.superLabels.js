@@ -10,6 +10,7 @@
 (function($) {
 	var defaults = {
 		baseZindex:0, // The base z-index which we display on top of.
+		debug:true,
 		duration:500, // Time of the slide in milliseconds.
 		easingIn:($.easing.def ? 'easeInOutCubic' : false), // The easing in function to use for the slide.
 		easingOut:($.easing.def ? 'easeInOutCubic' : false), // The easing out function to use for the slide.
@@ -185,7 +186,7 @@
 	_noVal = function(_el) { return $(_el).val() === ''; };
 	
 	// Console Functions (We need these to make sure this only displays when the console exists.)
-	_log = function() { if (console && console.log) console.log.apply(console, arguments); };
-	_info = function() { if (console && console.info) console.info.apply(console, arguments); };
-	_error = function() { if (console && console.error) console.error.apply(console, arguments); };
+	_log = function() { if (defaults.debug && console && console.log) console.log.apply(console, arguments); };
+	_info = function() { if (defaults.debug && console && console.info) console.info.apply(console, arguments); };
+	_error = function() { if (defaults.debug && console && console.error) console.error.apply(console, arguments); };
 })(jQuery);
