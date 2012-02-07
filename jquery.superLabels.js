@@ -23,6 +23,7 @@
 
 	var acceptedInputTypes = ['text', 'search', 'url', 'tel', 'email', 'password'];
 	var acceptedElements = ['select', 'textarea'];
+	var disallowedInputTypes = ['[type="hidden"]', '[type="submit"]'];
 
 	$.fn.superLabels = function(options) {
 		// If this has been run on an empty set of elements, pop out.
@@ -36,7 +37,7 @@
 
 		// Check for whether the user has just passed in the form. If so, we need to fetch all the accepted fields, etc..
 		if (this.length === 1 && this[0].tagName.match(/form/i)) {
-			_fields = $(acceptedElements.join(',')+',input', this); // get all inputs - we'll filter these out later.
+			_fields = $(acceptedElements.join(',')+',input', this).not(disallowedInputTypes.join(',')); // get all workable inputs - we'll filter these out further at a later stage.
 		}
 
 		// Do our magic on each form field.
