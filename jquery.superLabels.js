@@ -42,13 +42,14 @@
 
 		// Do our magic on each form field.
 		return _fields.each(function() {
+			var _field = $(this);
+			
 			// Don't even bother going further if this isn't one of the accepted input field types or elements.
 			if ($.inArray(_field.attr('type'), acceptedInputTypes) === -1 && $.inArray(_field[0].tagName.toLowerCase(), acceptedElements) !== -1) {
 				_info('Doh! The following '+this.tagName.toLowerCase()+', is not supported.', this);
 				return true; // Equivalent to continue in a normal for loop.
 			}
 
-			var _field = $(this);
 			var _label = _getLabel(this);
 			var _placeholder = _field.attr('placeholder');
 
