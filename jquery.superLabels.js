@@ -10,7 +10,7 @@
 (function($) {
 	var defaults = {
 		baseZindex:0, // The base z-index which we display on top of.
-		debug:true,
+		debug:false,
 		duration:500, // Time of the slide in milliseconds.
 		easingIn:($.easing.def ? 'easeInOutCubic' : false), // The easing in function to use for the slide.
 		easingOut:($.easing.def ? 'easeInOutCubic' : false), // The easing out function to use for the slide.
