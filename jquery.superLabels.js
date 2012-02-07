@@ -23,8 +23,7 @@
 	};
 
 	var acceptedInputTypes = ['text', 'search', 'url', 'tel', 'email', 'password'];
-	var acceptedElements = ['select', 'textarea'];
-	var disallowedInputTypes = ['[type="hidden"]', '[type="submit"]'];
+	var acceptedElements = ['input', 'textarea', 'select'];
 
 	$.fn.superLabels = function(options) {
 		// If this has been run on an empty set of elements, pop out.
@@ -38,11 +37,17 @@
 
 		// Check for whether the user has just passed in the form. If so, we need to fetch all the accepted fields, etc..
 		if (this.length === 1 && this[0].tagName.match(/form/i)) {
-			_fields = $(acceptedElements.join(',')+',input', this).not(disallowedInputTypes.join(',')); // get all workable inputs - we'll filter these out further at a later stage.
+			_fields = $(acceptedElements.join(','), this);
 		}
 
 		// Do our magic on each form field.
 		return _fields.each(function() {
+			// Don't even bother going further if this isn't one of the accepted input field types or elements.
+			if ($.inArray(_field.attr('type'), acceptedInputTypes) === -1 && $.inArray(_field[0].tagName.toLowerCase(), acceptedElements) !== -1) {
+				_info('Doh! The following '+this.tagName.toLowerCase()+', is not supported.', this);
+				return true; // Equivalent to continue in a normal for loop.
+			}
+
 			var _field = $(this);
 			var _label = _getLabel(this);
 			var _placeholder = _field.attr('placeholder');
@@ -60,12 +65,7 @@
 				}
 				_field.removeAttr('placeholder');
 			}
-
-			// Don't even bother going further if this isn't one of the accepted input field types or elements.
-			if (!$.inArray(_field.attr('type'), acceptedInputTypes) && !$.inArray(_field[0].tagName.toLowerCase(), acceptedElements)) {
-				_info('Doh! The following '+this.tagName.toLowerCase()+' is not supported.', this);
-				return true; // Equivalent to continue in a normal for loop.
-			}
+			
 			// Make sure this form field has a label
 			if (_label.length === 0) {
 				_info('Doh! The following '+this.tagName.toLowerCase()+' has no related label.', this);
