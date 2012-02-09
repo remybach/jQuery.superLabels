@@ -8,6 +8,10 @@ This method only really works for the following: input[type="text"], input[type=
 
 ☨ Uses the easing plugin if available.
 
+## SHOW ME TEH DEMO
+
+See [my Get In Touch page](http://remy.bach.me.uk/get-in-touch/) for a work-in-progress demo.
+
 ## Usage
 
 You need to make sure that the element containing both the field and the label has `position:relative;`. Other than that, the plugin should have enough flexibility to handle most of your needs.
