@@ -8,9 +8,9 @@ This method only really works for the following: input[type="text"], input[type=
 
 ☨ Uses the easing plugin if available.
 
-## SHOW ME TEH DEMO
+## Demo
 
-See [my Get In Touch page](http://remy.bach.me.uk/get-in-touch/) for a work-in-progress demo.
+If you want to see a kind of demo of how it works, check out the [‘get in touch’](http://remy.bach.me.uk/get-in-touch/) page on my site which uses a version I’m working on that has a tooltip feature rolled in as well.
 
 ## Usage
 
