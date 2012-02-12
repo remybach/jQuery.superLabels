@@ -10,7 +10,7 @@ This method only really works for the following: input[type="text"], input[type=
 
 ## Demo
 
-If you want to see a kind of demo of how it works, check out the [‘get in touch’](http://remy.bach.me.uk/get-in-touch/) page on my site which uses a version I’m working on that has a tooltip feature rolled in as well.
+Here's a (very) [simple demo](http://remy.bach.me.uk/superlabels_demo/) of Super Labels in action.
 
 ## Usage
 
