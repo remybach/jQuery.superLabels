@@ -41,11 +41,11 @@ There are quite a number of options you can pass the plugin additional to the tw
 * `easingIn` -  The easing in function to use for the slide. _(default: 'easeInOutCubic')_
 * `easingOut` -  The easing out function to use for the slide. _(default: 'easeInOutCubic')_
 * `fadeDuration` - Duration of animation when it's fade only. _(default: 250)_
+* `labelLeft` - The distance from the left for the label. _(default: 0)_
+* `labelTop` - The distance from the top for the label. _(default: 0)_
 * `noAnimate` - Whether or not to animate. If set to true, will function the same as a normal placeholder. _(default:false)_
 	* This is a 'just in case' option that can/should be used when there are performance issues with animating.
 * `opacity` - The opacity to fade the label to. _(default: 0.5)_
-* `labelLeft` - The distance from the left for the label. _(default: 0)_
-* `labelTop` - The distance from the top for the label. _(default: 0)_
 * `slide` - Whether or not to slide the label across the input field. _(default: true)_
 * `wrapSelector` - The selector for the element you have wrapping each field. _(default: false)_
 	* This is used to find the label - use as a last resort. Rather make sure the field and label are next to each other in your markup, or failing that, that your labels use the `for` attribute that point to the field's `name` or `id`.
