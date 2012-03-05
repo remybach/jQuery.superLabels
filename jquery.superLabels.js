@@ -178,6 +178,8 @@
 		}
 	};
 	_keyup = function() {
+		if (defaults.noAnimate) return false; // We don't need any keyup checking done if we're not animating (the label would be in the way while trying to type).
+		
 		var _label = _getLabel(this);
 		var _o = 0;
 		
@@ -189,11 +191,6 @@
 
 		// If the field is empty and the label isn't showing, make it show up again.
 		if (_noVal(this) && !_label.css('opacity') == 0) {
-			if (defaults.noAnimate) {
-				_label.show();
-				return false;
-			}
-
 			_o = defaults.opacity;
 		}
 
