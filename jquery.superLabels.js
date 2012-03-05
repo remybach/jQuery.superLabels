@@ -17,6 +17,7 @@
 		fadeDuration:250, // Duration of animation when it's fade only.
 		labelLeft:0, // The distance from the left for the label.
 		labelTop:0, // The distance from the top for the label.
+		noAnimate:false, // Whether or not to animate (slide and fade) the label. If true, we'll just hide it.
 		opacity:0.5, // The opacity to fade the label to.
 		slide:true, // Whether or not to slide the label across the input field.
 		wrapSelector:false // The selector for the element you have wrapping each field.
@@ -140,6 +141,11 @@
 			var _duration = defaults.duration;
 			var _label = _getLabel(this);
 			var _to ={ opacity:0 };
+
+			if (defaults.noAnimate) {
+				_label.hide();
+				return false;
+			}
 			
 			if (defaults.slide) {
 				_to.left = $(this).width()-_label.width();
@@ -154,7 +160,13 @@
 	_blur = function() {
 		if (_noVal(this) ) {
 			var _duration = defaults.duration;
+			var _label = _getLabel(this);
 			var _to ={ opacity:1 };
+
+			if (defaults.noAnimate) {
+				_label.show();
+				return false;
+			}
 			
 			if (defaults.slide) {
 				_to.left = defaults.labelLeft;
@@ -162,7 +174,7 @@
 				_duration = defaults.fadeDuration;
 			}
 			
-			_getLabel(this).animate(_to, _duration, defaults.easingOut);
+			_label.animate(_to, _duration, defaults.easingOut);
 		}
 	};
 	_keyup = function() {
@@ -174,11 +186,17 @@
 			return false;
 		}
 
+
 		// If the field is empty and the label isn't showing, make it show up again.
 		if (_noVal(this) && !_label.css('opacity') == 0) {
+			if (defaults.noAnimate) {
+				_label.show();
+				return false;
+			}
+
 			_o = defaults.opacity;
 		}
-		
+
 		_label.animate({ opacity:_o }, defaults.fadeDuration, defaults.easingOut);
 	};
 
