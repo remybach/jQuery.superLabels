@@ -42,7 +42,9 @@ There are quite a number of options you can pass the plugin additional to the tw
 * `easingOut` -  The easing out function to use for the slide. _(default: 'easeInOutCubic')_
 * `fadeDuration` - Duration of animation when it's fade only. _(default: 250)_
 * `labelLeft` - The distance from the left for the label. _(default: 0)_
+	* You can pass in 'px' if you're the pedantic type. For example: `labelLeft:'5px'`
 * `labelTop` - The distance from the top for the label. _(default: 0)_
+	* As above: `labelTop:'5px'`
 * `noAnimate` - Whether or not to animate. If set to true, will function the same as a normal placeholder. _(default:false)_
 	* This is a 'just in case' option that can/should be used when there are performance issues with animating.
 * `opacity` - The opacity to fade the label to. _(default: 0.5)_
