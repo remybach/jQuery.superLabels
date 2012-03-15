@@ -29,6 +29,10 @@
 	$.fn.superLabels = function(options) {
 		// If this has been run on an empty set of elements, pop out.
 		if (this.length === 0) return false;
+
+		// Remove any NaNs from the left and top positions (so you could pass in 5px for example)
+		options.labelLeft = Number(options.labelLeft.replace(/\D+/, ''));
+		options.labelTop = Number(options.labelTop.replace(/\D+/, ''));
 		
 		// If options were passed in, merge them with the defaults.
 		$.extend(defaults, options || {});
