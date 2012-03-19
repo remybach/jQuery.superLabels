@@ -31,9 +31,9 @@
 		if (this.length === 0) return false;
 
 		// Remove any NaNs from the positions (if present)
-		if (isNaN(options.labelLeft))
+		if (options && options.labelLeft && isNaN(options.labelLeft))
 			options.labelLeft = Number(options.labelLeft.replace(/\D+/, ''));
-		if (isNaN(options.labelTop))
+		if (options && options.labelTop && isNaN(options.labelTop))
 			options.labelTop = Number(options.labelTop.replace(/\D+/, ''));
 		
 		// If options were passed in, merge them with the defaults.
