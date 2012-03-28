@@ -23,7 +23,7 @@
 		wrapSelector:false // The selector for the element you have wrapping each field.
 	};
 
-	var acceptedInputTypes = ['text', 'search', 'url', 'tel', 'email', 'password'];
+	var acceptedInputTypes = ['text', 'search', 'url', 'tel', 'email', 'password', 'number'];
 	var acceptedElements = ['input', 'textarea', 'select'];
 
 	$.fn.superLabels = function(options) {
