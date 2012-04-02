@@ -128,12 +128,10 @@
 
 			_label.css('display','none');
 		} else {
-			// If the field already has a value, then hide the label.
-			if (!_noVal(_field)) _label.hide();
-
 			_field.css({ zIndex:defaults.baseZindex+1 }).addClass('sl_field');
 			_label.css({
-				left:defaults.labelLeft,
+				left:_noVal(_field) ? defaults.labelLeft : $(_field).width()-_label.width(),
+				opacity:_noVal(_field) ? 1 : 0,
 				position:'absolute',
 				top:defaults.labelTop,
 				zIndex:defaults.baseZindex+2
@@ -190,13 +188,13 @@
 		var _o = 0;
 		
 		// Let's check whether there's even a need to animate anything first.
-		if ((_noVal(this) && _label.css('opacity') > 0) || (!_noVal(this) && _label.css('opacity') == 0 )) {
+		if ((_noVal(this) && _label.css('opacity') > 0) || (!_noVal(this) && _label.css('opacity') === 0 )) {
 			return false;
 		}
 
 
 		// If the field is empty and the label isn't showing, make it show up again.
-		if (_noVal(this) && !_label.css('opacity') == 0) {
+		if (_noVal(this) && _label.css('opacity') !== 0) {
 			_o = defaults.opacity;
 		}
 
