@@ -37,6 +37,7 @@ There are quite a number of options you can pass the plugin additional to the tw
 
 * `baseZindex` - The base z-index which we display on top of. _(default: 0)_
 * `debug` - Whether or not to show console messages. _(default: false)_
+	* Note: this is not available in the minified version.
 * `duration` - Time of the slide in milliseconds. _(default: 500)_
 * `easingIn` -  The easing in function to use for the slide. _(default: 'easeInOutCubic')_
 * `easingOut` -  The easing out function to use for the slide. _(default: 'easeInOutCubic')_
