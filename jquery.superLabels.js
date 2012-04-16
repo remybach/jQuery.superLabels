@@ -89,6 +89,8 @@
 				_field.focus(_focus);
 				// What happens when we leave the field.
 				_field.blur(_blur);
+				_field.change(_blur);
+				_field.bind('propertychange', _blur);
 				// Check for when the user is typing
 				_field.keyup(_keyup);
 				// Make sure the field gets focus when the label is clicked on (for those people who don't use the 'for' attribute and deserve a kick to the face).
