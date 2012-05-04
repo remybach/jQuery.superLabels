@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Jquery.superlabels : Give your forms a helping of awesome!" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Jquery.superlabels</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/remybach/jQuery.superLabels">View on GitHub</a>
+
+          <h1 id="project_title">Jquery.superlabels</h1>
+          <h2 id="project_tagline">Give your forms a helping of awesome!</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/remybach/jQuery.superLabels/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/remybach/jQuery.superLabels/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>jQuery Super Labels Plugin</h1>
+
+<h2>About</h2>
+
+<p>This plugin was born out of the need to use the label-over-field method for forms I was working on. There are other plugins out there that do pretty much the same thing, but none of them had the - for lack of a better word - sexiness that I was looking for. This implementation makes the label slide across the field☨ when gaining focus and fade out when a value is entered.</p>
+
+<p>This method only really works for the following: input[type="text"], input[type="search"], input[type="url"], input[type="tel"], input[type="email"], input[type="password"], input[type="number"], textarea, and finally there's select field support thrown in too.</p>
+
+<p>☨ Uses the easing plugin if available.</p>
+
+<h2>Demo</h2>
+
+<p>Here's a (very) <a href="http://remy.bach.me.uk/superlabels_demo/">simple demo</a> of Super Labels in action.</p>
+
+<h2>Usage</h2>
+
+<p>You need to make sure that the element containing both the field and the label has <code>position:relative;</code>. Other than that, the plugin should have enough flexibility to handle most of your needs.</p>
+
+<h4>Basic</h4>
+
+<p>The quickest and easiest way to use this plugin is as follows:</p>
+
+<pre><code>$('form').superLabels();
+</code></pre>
+
+<p>Running the plugin on a form will automatically apply the magic to the accepted fields listed above.</p>
+
+<p>If you find that you need to position the labels slightly differently, pass in <code>labelLeft</code> and/or <code>labelTop</code> as follows:</p>
+
+<pre><code>$('form').superLabels({
+    labelLeft:5,
+    labelTop:5
+});
+</code></pre>
+
+<h4>Advanced</h4>
+
+<p>There are quite a number of options you can pass the plugin additional to the two I mentioned above:</p>
+
+<ul>
+<li>
+<code>baseZindex</code> - The base z-index which we display on top of. <em>(default: 0)</em>
+</li>
+<li>
+<code>debug</code> - Whether or not to show console messages. <em>(default: false)</em>
+
+<ul>
+<li>Note: this is not available in the minified version.</li>
+</ul>
+</li>
+<li>
+<code>duration</code> - Time of the slide in milliseconds. <em>(default: 500)</em>
+</li>
+<li>
+<code>easingIn</code> -  The easing in function to use for the slide. <em>(default: 'easeInOutCubic')</em>
+</li>
+<li>
+<code>easingOut</code> -  The easing out function to use for the slide. <em>(default: 'easeInOutCubic')</em>
+</li>
+<li>
+<code>fadeDuration</code> - Duration of animation when it's fade only. <em>(default: 250)</em>
+</li>
+<li>
+<code>labelLeft</code> - The distance from the left for the label. <em>(default: 0)</em>
+
+<ul>
+<li>You can pass in 'px' if you're the pedantic type. For example: <code>labelLeft:'5px'</code>
+</li>
+</ul>
+</li>
+<li>
+<code>labelTop</code> - The distance from the top for the label. <em>(default: 0)</em>
+
+<ul>
+<li>As above: <code>labelTop:'5px'</code>
+</li>
+</ul>
+</li>
+<li>
+<code>noAnimate</code> - Whether or not to animate. If set to true, will function the same as a normal placeholder. <em>(default:false)</em>
+
+<ul>
+<li>This is a 'just in case' option that can/should be used when there are performance issues with animating.</li>
+</ul>
+</li>
+<li>
+<code>opacity</code> - The opacity to fade the label to. <em>(default: 0.5)</em>
+</li>
+<li>
+<code>slide</code> - Whether or not to slide the label across the input field. <em>(default: true)</em>
+</li>
+<li>
+<code>wrapSelector</code> - The selector for the element you have wrapping each field. <em>(default: false)</em>
+
+<ul>
+<li>This is used to find the label - use as a last resort. Rather make sure the field and label are next to each other in your markup, or failing that, that your labels use the <code>for</code> attribute that point to the field's <code>name</code> or <code>id</code>.</li>
+</ul>
+</li>
+</ul><h4>Known Bugs</h4>
+
+<p>Below I'll list any bugs that I'm aware of and will try to get around to fixing as soon as I can.</p>
+
+<ul>
+<li>Auto filling of form fields that is performed by some browsers causes a visual bug. Currently the label stays visible and positioned on top of the field while the field has a value.</li>
+</ul><h4>License</h4>
+
+<p>MIT License - <a href="http://remybach.mit-license.org/" title="Link through to read my License.">http://remybach.mit-license.org/</a></p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Jquery.superlabels maintained by <a href="https://github.com/remybach">remybach</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-26812491-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
