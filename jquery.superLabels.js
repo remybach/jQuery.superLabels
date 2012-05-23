@@ -7,7 +7,7 @@
  *	Description:
  *	This plugin allows you to display your form labels on top of your form fields, saving you space on your page.
  */
-(function($) {
+;(function($) {
 	var defaults = {
 		baseZindex:0, // The base z-index which we display on top of.
 		debug:false,
