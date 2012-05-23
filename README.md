@@ -20,7 +20,10 @@ You need to make sure that the element containing both the field and the label h
 
 The quickest and easiest way to use this plugin is as follows:
 
-	$('form').superLabels();
+	// Don't forget to do this *after* the DOM has loaded.
+	jQuery(function($) {
+		$('form').superLabels();
+	});
 
 Running the plugin on a form will automatically apply the magic to the accepted fields listed above.
 
