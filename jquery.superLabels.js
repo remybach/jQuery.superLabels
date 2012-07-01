@@ -1,7 +1,7 @@
 /*
  *	Title: jQuery Super Labels Plugin - Give your forms a helping of awesome!
  *	Author: Rémy Bach
- *	Version: 1.0.1
+ *	Version: 1.0.2
  *	License: http://remybach.mit-license.org
  *	Url: http://github.com/remybach/jQuery.superLabels
  *	Description:
@@ -90,6 +90,8 @@
 				// What happens when we leave the field.
 				_field.blur(_blur);
 				_field.change(_blur);
+				// Autofil bug fixes
+				_field.bind('input', _keyup); // For the currently selected field.
 				_field.bind('propertychange', _blur);
 				// Check for when the user is typing
 				_field.keyup(_keyup);
@@ -164,7 +166,7 @@
 		}
 	};
 	_blur = function() {
-		if (_noVal(this) ) {
+		if (_noVal(this)) {
 			var _duration = defaults.duration;
 			var _label = _getLabel(this);
 			var _to ={ opacity:1 };
@@ -181,6 +183,9 @@
 			}
 			
 			_label.animate(_to, _duration, defaults.easingOut);
+		} else {
+			// If there is a value, and the label is visible, fire our _keyup function so as to hide it. (this semi-fixes the autofill bug)
+			_keyup.apply(this);
 		}
 	};
 	_keyup = function() {
