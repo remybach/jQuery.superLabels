@@ -60,7 +60,7 @@ There are quite a number of options you can pass the plugin additional to the tw
 
 Below I'll list any bugs that I'm aware of and will try to get around to fixing as soon as I can.
 
-* Auto filling of form fields that is performed by some browsers causes a visual bug. Currently the label stays visible and positioned on top of the field while the field has a value. I've submitted a bug report for Chrome [here](https://code.google.com/p/chromium/issues/detail?id=135307), and have found a bug report for Firefox [here](https://bugzilla.mozilla.org/show_bug.cgi?id=184761).
+* Auto filling of form fields that is performed by some browsers (other than Chrome) causes a visual bug. Currently the label stays visible and positioned on top of the field while the field has a value. I've found a bug report for Firefox [here](https://bugzilla.mozilla.org/show_bug.cgi?id=184761).
 
 #### License
 
