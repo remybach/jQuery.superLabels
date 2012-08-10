@@ -34,6 +34,10 @@ If you find that you need to position the labels slightly differently, pass in `
 		labelTop:5
 	});
 
+Lastly, you can choose to ONLY apply superLabels to specific fields if you wish by selecting them instead of the form as follows:
+
+	$('input.foo, textarea.bar, select.baz').superLabels();
+
 #### Advanced
 
 There are quite a number of options you can pass the plugin additional to the two I mentioned above:
