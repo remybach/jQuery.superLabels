@@ -20,7 +20,7 @@ You need to make sure that the element containing both the field and the label h
 
 The quickest and easiest way to use this plugin is as follows:
 
-	// Don't forget to do this *after* the DOM has loaded.
+    // Don't forget to do this *after* the DOM has loaded.
 	jQuery(function($) {
 		$('form').superLabels();
 	});
@@ -60,7 +60,16 @@ There are quite a number of options you can pass the plugin additional to the tw
 * `wrapSelector` - The selector for the element you have wrapping each field. _(default: false)_
 	* This is used to find the label - use as a last resort. Rather make sure the field and label are next to each other in your markup, or failing that, that your labels use the `for` attribute that point to the field's `name` or `id`.
 
-#### Known Bugs
+## Concerning placeholders
+
+According to [the spec](http://www.w3.org/wiki/HTML/Elements/input/text) placeholders are meant to be used to represent "a short hint (a word or short phrase) intended to aid the user with data entry." *NOT* as a replacement for labels.
+
+The way superLabels uses placeholders (as of version 1.1.1) is as follows:
+
+* If there is a label AND a placeholder for the field, the placeholder becomes the label's title so that it shows up when you hover over the label.
+* If there is JUST the placeholder, it becomes the label for the field.
+
+##Known Bugs
 
 Below I'll list any bugs that I'm aware of and will try to get around to fixing as soon as I can.
 
