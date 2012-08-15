@@ -1,7 +1,7 @@
 /*
  *	Title: jQuery Super Labels Plugin - Give your forms a helping of awesome!
  *	Author: Rémy Bach
- *	Version: 1.0.2
+ *	Version: 1.1.0
  *	License: http://remybach.mit-license.org
  *	Url: http://github.com/remybach/jQuery.superLabels
  *	Description:
@@ -27,6 +27,8 @@
 	var acceptedElements = ['input', 'textarea', 'select'];
 
 	$.fn.superLabels = function(options) {
+		var _fields = [];
+
 		// If this has been run on an empty set of elements, pop out.
 		if (this.length === 0) return false;
 
@@ -35,22 +37,31 @@
 			options.labelLeft = Number(options.labelLeft.replace(/\D+/, ''));
 		if (options && options.labelTop && isNaN(options.labelTop))
 			options.labelTop = Number(options.labelTop.replace(/\D+/, ''));
-		
+
 		// If options were passed in, merge them with the defaults.
 		$.extend(defaults, options || {});
 		if (!$.easing.def) { _info('Easing plugin not found - using standard jQuery animations.'); }
 
-		var _fields = this;
-
-		// Check for whether the user has just passed in the form. If so, we need to fetch all the accepted fields, etc..
-		if (this.length === 1 && this[0].tagName.match(/form/i)) {
+		// Check for whether the user has just passed in the form. If so, we need to fetch all the accepted fields.
+		if (this.length === 1 && /form/i.test(this[0].tagName)) {
 			_fields = $(acceptedElements.join(','), this);
+		} else if (this.length > 1) { // we need to extrapolate these fields
+			this.each(function() {
+				if (/form/i.test(this.tagName)) { // if this is a form merge the accepted elements into the _fields array.
+					$.merge(_fields, $(acceptedElements.join(','), this));
+				} else {
+					// This is a normal field, so just dump this one in.
+					_fields.push(this);
+				}
+			});
+		} else { // If all else fails, assume the user passed in the fields individually
+			_fields = this;
 		}
 
 		// Do our magic on each form field.
-		return _fields.each(function() {
+		return $(_fields).each(function() {
 			var _field = $(this);
-			
+
 			// Don't even bother going further if this isn't one of the accepted input field types or elements.
 			if ((_field[0].tagName.toLowerCase() === 'input' && $.inArray(_field.attr('type'), acceptedInputTypes)) === -1 && $.inArray(_field[0].tagName.toLowerCase(), acceptedElements) !== -1) {
 				_info('Doh! The following '+this.tagName.toLowerCase()+', is not supported.', this);
@@ -73,7 +84,7 @@
 				}
 				_field.removeAttr('placeholder');
 			}
-			
+
 			// Make sure this form field has a label
 			if (_label.length === 0) {
 				_info('Doh! The following '+this.tagName.toLowerCase()+' has no related label.', this);
@@ -82,7 +93,7 @@
 
 			// Position the labels above the form fields. Note:We do this here and not in the CSS for the purposes of progressive enhancement.
 			_prepLabel(_field, _label);
-			
+
 			// Select boxes don't need to have any fancy label stuff done.
 			if (!this.tagName.match(/select/i)) {
 				// What happens when we enter the field
@@ -127,7 +138,7 @@
 			// before the page has loaded), so I'm going to assume that if the form is prefilled or values are remembered
 			// between page loads, then the [selected attribute will be used.
 			var _selected = _field.find('[selected]').length === 0 ? ' selected' : '';
-			
+
 			_field.prepend('<option value="" disabled'+_selected+' rel="label">'+_label.html()+'</option>');
 
 			_label.css('display','none');
@@ -154,14 +165,14 @@
 				_label.hide();
 				return false;
 			}
-			
+
 			if (defaults.slide) {
 				_to.left = $(this).width()-_label.width();
 				_to.opacity = defaults.opacity;
 			} else {
 				_duration = defaults.fadeDuration;
 			}
-			
+
 			_label.animate(_to, _duration, defaults.easingOut);
 		}
 	};
@@ -175,13 +186,13 @@
 				_label.show();
 				return false;
 			}
-			
+
 			if (defaults.slide) {
 				_to.left = defaults.labelLeft;
 			} else {
 				_duration = defaults.fadeDuration;
 			}
-			
+
 			_label.animate(_to, _duration, defaults.easingOut);
 		} else {
 			// If there is a value, and the label is visible, fire our _keyup function so as to hide it. (this semi-fixes the autofill bug)
@@ -190,10 +201,10 @@
 	};
 	_keyup = function() {
 		if (defaults.noAnimate) return false; // We don't need any keyup checking done if we're not animating (the label would be in the way while trying to type).
-		
+
 		var _label = _getLabel(this);
 		var _o = 0;
-		
+
 		// Let's check whether there's even a need to animate anything first.
 		if ((_noVal(this) && _label.css('opacity') > 0) || (!_noVal(this) && _label.css('opacity') === 0 )) {
 			return false;
@@ -211,7 +222,7 @@
 	/*===== Utility Functions =====*/
 	// Tell us whether the form field has a value.
 	_noVal = function(_el) { return $(_el).val() === ''; };
-	
+
 	// Console Functions (We need these to make sure this only displays when the console exists.)
 	_log = function() { if (defaults.debug && console && console.log) console.log.apply(console, arguments); };
 	_info = function() { if (defaults.debug && console && console.info) console.info.apply(console, arguments); };
