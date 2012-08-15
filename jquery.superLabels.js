@@ -1,7 +1,7 @@
 /*
  *	Title: jQuery Super Labels Plugin - Give your forms a helping of awesome!
  *	Author: Rémy Bach
- *	Version: 1.1.0
+ *	Version: 1.1.1
  *	License: http://remybach.mit-license.org
  *	Url: http://github.com/remybach/jQuery.superLabels
  *	Description:
@@ -71,16 +71,20 @@
 			var _label = _getLabel(this);
 			var _placeholder = _field.attr('placeholder');
 
-			// Check for the placeholder attribute first.
+			// If there's a placeholder
 			if (_placeholder) {
-				var _placeholderLabel = $('<label for="'+(_field.attr('id') || _field.attr('name'))+'">'+_placeholder+'</label>');
-
-				// If there isn't a label for this field, create one, otherwise replace the existing one with the placeholder one.
+				// but NO label, make a label using the placeholder
 				if (_label.length === 0) {
+					var _placeholderLabel = '<label for="'+(_field.attr('id') || _field.attr('name'))+'">'+_placeholder+'</label>';
+					_placeholderLabel+= '</label>';
+					_placeholderLabel = $(_placeholderLabel);
+
+					// If there isn't a label for this field, create one, otherwise replace the existing one with the placeholder one.
 					_label = _placeholderLabel;
-					_field.prev(_label);
+					_field.before(_label);
 				} else {
-					_label.replaceWith(_placeholderLabel);
+					// Otherwise, just give the label a title with the placeholder
+					_label.attr('title', _placeholder);
 				}
 				_field.removeAttr('placeholder');
 			}
