@@ -177,7 +177,7 @@
 				_duration = defaults.fadeDuration;
 			}
 
-			_label.animate(_to, _duration, defaults.easingOut);
+			_label.stop(true,false).animate(_to, _duration, defaults.easingOut);
 		}
 	};
 	_blur = function() {
@@ -197,7 +197,7 @@
 				_duration = defaults.fadeDuration;
 			}
 
-			_label.animate(_to, _duration, defaults.easingOut);
+			_label.stop(true,false).animate(_to, _duration, defaults.easingOut);
 		} else {
 			// If there is a value, and the label is visible, fire our _keyup function so as to hide it. (this semi-fixes the autofill bug)
 			_keyup.apply(this);
@@ -220,7 +220,7 @@
 			_o = defaults.opacity;
 		}
 
-		_label.animate({ opacity:_o }, defaults.fadeDuration, defaults.easingOut);
+		_label.stop(true,false).animate({ opacity:_o }, defaults.fadeDuration, defaults.easingOut);
 	};
 
 	/*===== Utility Functions =====*/
