@@ -1,7 +1,7 @@
 /*
  *	Title: jQuery Super Labels Plugin - Give your forms a helping of awesome!
  *	Author: Rémy Bach
- *	Version: 1.1.1
+ *	Version: 1.1.2
  *	License: http://remybach.mit-license.org
  *	Url: http://github.com/remybach/jQuery.superLabels
  *	Description:
@@ -136,6 +136,8 @@
 
 	// Position the label.
 	_prepLabel = function(_field, _label) {
+		var opacity = 0;
+
 		// Handle drop down list labels differently
 		if (_field[0].tagName.match(/select/i)) {
 			// Checking whether the field has a value doesn't work (the browser just seems to select the first <option>
@@ -147,10 +149,18 @@
 
 			_label.css('display','none');
 		} else {
+			// If the field is empty, make the label fully opaque.
+			if (_noVal(_field)) {
+				opacity = 1;
+			// Otherwise, if the field is not empty, but below the character count (if any), use the passed in option.
+			} else if (_withinCharCount(_field)) {
+				opacity = defaults.opacity;
+			}
+
 			_field.css({ zIndex:defaults.baseZindex+1 }).addClass('sl_field');
 			_label.css({
 				left:_noVal(_field) ? defaults.labelLeft : $(_field).width()-_label.width(),
-				opacity:_noVal(_field) ? 1 : 0,
+				opacity:opacity,
 				position:'absolute',
 				top:defaults.labelTop,
 				zIndex:defaults.baseZindex+2
@@ -158,7 +168,7 @@
 		}
 	};
 
-	// The focus and blur functions
+	// The event handlers for the form fields.
 	_focus = function() {
 		if (_noVal(this)) {
 			var _duration = defaults.duration;
@@ -214,9 +224,8 @@
 			return false;
 		}
 
-
 		// If the field is empty and the label isn't showing, make it show up again.
-		if (_noVal(this) && _label.css('opacity') !== 0) {
+		if ( (_noVal(this) && _label.css('opacity') !== 0) || _withinCharCount(this) ) {
 			_o = defaults.opacity;
 		}
 
@@ -226,6 +235,21 @@
 	/*===== Utility Functions =====*/
 	// Tell us whether the form field has a value.
 	_noVal = function(_el) { return $(_el).val() === ''; };
+	// Tell us whether the form field meets a given character count (if necessary)
+	_withinCharCount = function(_el) {
+		var count = $(_el).data('slCharLimit');
+
+		// Stop here if there's no need to check for number of characters.
+		if (!count || typeof count !== 'number') {
+			return false;
+		}
+
+		// If this has a length property, we can assume this element is part of a
+		//	jQuery object-like Array, thus: grab the DOM element from it.
+		_el = _el.length ? _el[0] : _el;
+
+		return count && _el.value && _el.value.length <= count;
+	};
 
 	// Console Functions (We need these to make sure this only displays when the console exists.)
 	_log = function() { if (defaults.debug && console && console.log) console.log.apply(console, arguments); };

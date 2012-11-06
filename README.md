@@ -60,6 +60,13 @@ There are quite a number of options you can pass the plugin additional to the tw
 * `wrapSelector` - The selector for the element you have wrapping each field. _(default: false)_
 	* This is used to find the label - use as a last resort. Rather make sure the field and label are next to each other in your markup, or failing that, that your labels use the `for` attribute that point to the field's `name` or `id`.
 
+Last, but not least, you can choose to only fade out the label *after* a certain number of characters have been typed (as of version 1.1.2). You can make use of this by adding a `data-sl-char-limit` with the number of characters you wish for any given field (simply leave it out if you don't want to use this)
+
+For example, to make the label fade out only *after* 20 characters have been typed in the field:
+
+	<label for="text-input">Name</label>
+	<input type="text" name="text-input" value="" data-sl-char-limit="20" />
+
 ## Concerning placeholders
 
 According to [the spec](http://www.w3.org/wiki/HTML/Elements/input/text) placeholders are meant to be used to represent "a short hint (a word or short phrase) intended to aid the user with data entry." *NOT* as a replacement for labels.
