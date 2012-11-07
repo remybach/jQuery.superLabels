@@ -9,35 +9,36 @@
  */
 ;(function($) {
 	var defaults = {
-		autoCharLimit:false, // Whether to automatically attempt to determine the number of characters after which to fade the label out or not.
-		baseZindex:0, // The base z-index which we display on top of.
-		debug:false,
-		duration:500, // Time of the slide in milliseconds.
-		easingIn:($.easing.def ? 'easeInOutCubic' : false), // The easing in function to use for the slide.
-		easingOut:($.easing.def ? 'easeInOutCubic' : false), // The easing out function to use for the slide.
-		fadeDuration:250, // Duration of animation when it's fade only.
-		labelLeft:0, // The distance from the left for the label.
-		labelTop:0, // The distance from the top for the label.
-		noAnimate:false, // Whether or not to animate (slide and fade) the label. If true, we'll just hide it.
-		opacity:0.5, // The opacity to fade the label to.
-		slide:true, // Whether or not to slide the label across the input field.
-		wrapSelector:false // The selector for the element you have wrapping each field.
-	};
-
-	var acceptedInputTypes = ['text', 'search', 'url', 'tel', 'email', 'password', 'number'];
-	var acceptedElements = ['input', 'textarea', 'select'];
+			autoCharLimit:false, // Whether to automatically attempt to determine the number of characters after which to fade the label out or not.
+			baseZindex:0, // The base z-index which we display on top of.
+			debug:false,
+			duration:500, // Time of the slide in milliseconds.
+			easingIn:($.easing && $.easing.def ? 'easeInOutCubic' : false), // The easing in function to use for the slide.
+			easingOut:($.easing && $.easing.def ? 'easeInOutCubic' : false), // The easing out function to use for the slide.
+			fadeDuration:250, // Duration of animation when it's fade only.
+			labelLeft:0, // The distance from the left for the label.
+			labelTop:0, // The distance from the top for the label.
+			noAnimate:false, // Whether or not to animate (slide and fade) the label. If true, we'll just hide it.
+			opacity:0.5, // The opacity to fade the label to.
+			slide:true, // Whether or not to slide the label across the input field.
+			wrapSelector:false // The selector for the element you have wrapping each field.
+		},
+		acceptedInputTypes = ['text', 'search', 'url', 'tel', 'email', 'password', 'number'],
+		acceptedElements = ['input', 'textarea', 'select'];
 
 	$.fn.superLabels = function(options) {
 		var _fields = [];
 
 		// If this has been run on an empty set of elements, pop out.
-		if (this.length === 0) return false;
+		if (this.length === 0) { return false; }
 
 		// Remove any NaNs from the positions (if present)
-		if (options && options.labelLeft && isNaN(options.labelLeft))
+		if (options && options.labelLeft && isNaN(options.labelLeft)) {
 			options.labelLeft = Number(options.labelLeft.replace(/\D+/, ''));
-		if (options && options.labelTop && isNaN(options.labelTop))
+		}
+		if (options && options.labelTop && isNaN(options.labelTop)) {
 			options.labelTop = Number(options.labelTop.replace(/\D+/, ''));
+		}
 
 		// If options were passed in, merge them with the defaults.
 		$.extend(defaults, options || {});
@@ -60,21 +61,24 @@
 
 		// Do our magic on each form field.
 		return $(_fields).each(function() {
-			var _field = $(this);
+			var _field = $(this),
+				_label,
+				_placeholder = _field.attr('placeholder'),
+				_placeholderLabel;
 
 			// Don't even bother going further if this isn't one of the accepted input field types or elements.
 			if ((_field[0].tagName.toLowerCase() === 'input' && $.inArray(_field.attr('type'), acceptedInputTypes)) === -1 && $.inArray(_field[0].tagName.toLowerCase(), acceptedElements) !== -1) {
 				return true; // Equivalent to continue in a normal for loop.
 			}
 
-			var _label = _getLabel(this);
-			var _placeholder = _field.attr('placeholder');
+			// Get the label associated to this field.
+			_label = _getLabel(this);
 
 			// If there's a placeholder
 			if (_placeholder) {
 				// but NO label, make a label using the placeholder
 				if (_label.length === 0) {
-					var _placeholderLabel = '<label for="'+(_field.attr('id') || _field.attr('name'))+'">'+_placeholder+'</label>';
+					_placeholderLabel = '<label for="'+(_field.attr('id') || _field.attr('name'))+'">'+_placeholder+'</label>';
 					_placeholderLabel+= '</label>';
 					_placeholderLabel = $(_placeholderLabel);
 
@@ -136,14 +140,15 @@
 	_prepLabel = function(_field, _label) {
 		var _charLimit,
 			_charLimitAttr = _field.data('slCharLimit'),
-			_opacity = 0;
+			_opacity = 0,
+			_selected;
 
 		// Handle drop down list labels differently
 		if (_field[0].tagName.match(/select/i)) {
 			// Checking whether the field has a value doesn't work (the browser just seems to select the first <option>
 			// before the page has loaded), so I'm going to assume that if the form is prefilled or values are remembered
 			// between page loads, then the [selected attribute will be used.
-			var _selected = _field.find('[selected]').length === 0 ? ' selected' : '';
+			_selected = _field.find('[selected]').length === 0 ? ' selected' : '';
 
 			_field.prepend('<option value="" disabled'+_selected+' rel="label">'+_label.html()+'</option>');
 
@@ -176,10 +181,12 @@
 
 	// The event handlers for the form fields.
 	_focus = function() {
+		var _duration = defaults.duration,
+			_label,
+			_to = { opacity:0 };
+
 		if (_noVal(this)) {
-			var _duration = defaults.duration;
-			var _label = _getLabel(this);
-			var _to ={ opacity:0 };
+			_label = _getLabel(this);			
 
 			if (defaults.noAnimate) {
 				_label.hide();
@@ -197,10 +204,12 @@
 		}
 	};
 	_blur = function() {
+		var _duration = defaults.duration,
+			_label,
+			_to ={ opacity:1 };
+
 		if (_noVal(this)) {
-			var _duration = defaults.duration;
-			var _label = _getLabel(this);
-			var _to ={ opacity:1 };
+			_label = _getLabel(this);
 
 			if (defaults.noAnimate) {
 				_label.show();
@@ -220,10 +229,14 @@
 		}
 	};
 	_keyup = function() {
-		if (defaults.noAnimate) return false; // We don't need any keyup checking done if we're not animating (the label would be in the way while trying to type).
+		var _label,
+			_o = 0;
 
-		var _label = _getLabel(this);
-		var _o = 0;
+		if (defaults.noAnimate) {
+			return false; // We don't need any keyup checking done if we're not animating (the label would be in the way while trying to type).
+		}
+
+		_label = _getLabel(this);
 
 		// Let's check whether there's even a need to animate anything first.
 		if ((_noVal(this) && _label.css('opacity') > 0) || (!_noVal(this) && _label.css('opacity') === 0 )) {
@@ -231,7 +244,7 @@
 		}
 
 		// If the field is empty and the label isn't showing, make it show up again.
-		if ( (_noVal(this) && _label.css('opacity') !== 0) || _withinCharLimit(this) ) {
+		if ((_noVal(this) && _label.css('opacity') !== 0) || _withinCharLimit(this)) {
 			_o = defaults.opacity;
 		}
 
@@ -251,12 +264,13 @@
 		}
 
 		// If this has a length property, we can assume this element is part of a
-		//	jQuery object-like Array, thus: grab the DOM element from it.
+		//	jQuery object-like Array, thus: grab the DOM element from it (there should only be 1).
 		_el = _el.length ? _el[0] : _el;
 
 		return _limit && _el.value && _el.value.length <= _limit;
 	};
 	// Attempt to automatically set up the character limit and attach it to the field.
+	// This will only run once per field on page load.
 	_approximateChars = function(_field, _label) {
 		var _available,
 			_charLen,
