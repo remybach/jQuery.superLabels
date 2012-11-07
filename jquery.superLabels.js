@@ -1,7 +1,7 @@
 /*
  *	Title: jQuery Super Labels Plugin - Give your forms a helping of awesome!
  *	Author: Rémy Bach
- *	Version: 1.2.0
+ *	Version: 1.2.1
  *	License: http://remybach.mit-license.org
  *	Url: http://github.com/remybach/jQuery.superLabels
  *	Description:
@@ -276,12 +276,14 @@
 			'visibility':'hidden' // so that it's not visible, but still takes up space in the DOM so we can grab the width
 		});
 
-		$('body').append(_tmp);
+		// Append this to the parent so that it can correctly replicate the style of the field.
+		_field.parent().append(_tmp);
 		// Get the average length *per character*
 		_charLen = Math.round(_tmp.width() / _chars.length);
 		// Remove our temporary div from the DOM.
 		_tmp.remove();
 
+		// Figure out how much room we have to work with here.
 		_available = _field.width() - _label.width();
 
 		// Set the data-sl-char-limit attribute for this field to our approximated value.
