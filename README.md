@@ -16,7 +16,7 @@ Here's a (very) [simple demo](http://remy.bach.me.uk/superlabels_demo/) of Super
 
 You need to make sure that the element containing both the field and the label has `position:relative;`. Other than that, the plugin should have enough flexibility to handle most of your needs.
 
-#### Basic
+### Basic
 
 The quickest and easiest way to use this plugin is as follows:
 
@@ -38,10 +38,11 @@ Lastly, you can choose to ONLY apply superLabels to specific fields if you wish 
 
 	$('input.foo, textarea.bar, select.baz').superLabels();
 
-#### Advanced
+### Advanced
 
 There are quite a number of options you can pass the plugin additional to the two I mentioned above:
 
+* `autoCharLimit` - Whether to automatically attempt to determine the number of characters after which to fade the label out or not (see below for more on this). _(default: false)_
 * `baseZindex` - The base z-index which we display on top of. _(default: 0)_
 * `debug` - Whether or not to show console messages. _(default: false)_
 	* Note: this is not available in the minified version.
@@ -60,12 +61,20 @@ There are quite a number of options you can pass the plugin additional to the tw
 * `wrapSelector` - The selector for the element you have wrapping each field. _(default: false)_
 	* This is used to find the label - use as a last resort. Rather make sure the field and label are next to each other in your markup, or failing that, that your labels use the `for` attribute that point to the field's `name` or `id`.
 
-Last, but not least, you can choose to only fade out the label *after* a certain number of characters have been typed (as of version 1.1.2). You can make use of this by adding a `data-sl-char-limit` with the number of characters you wish for any given field (simply leave it out if you don't want to use this)
+#### "Character Limit"
+
+Last, but not least, you can choose to only fade out the label *after* a certain number of characters have been typed. You can make use of this by adding a `data-sl-char-limit` (as of version 1.1.2) with the number of characters you wish for any given field (simply leave it out if you don't want to use this).
 
 For example, to make the label fade out only *after* 20 characters have been typed in the field:
 
 	<label for="text-input">Name</label>
 	<input type="text" name="text-input" value="" data-sl-char-limit="20" />
+
+As of version 1.1.3, you can now choose to let superLabels do the heavy lifting for you and let it automatically try to guess the character length☨. You can do this by using the above `autoCharLimit` option, _or_ by setting the `data-sl-char-limit` to `auto` for a given field.
+
+The `autoCharLimit` option will be overridden by whatever is specified in the `data-sl-char-limit` attribute for that given element.
+
+☨ Note that this is only an approximation. Unless a mono-spaced font is used, there isn't a method of figuring out _exactly_ what length the characters are that _isn't_ expensive in terms of performance.
 
 ## Concerning placeholders
 

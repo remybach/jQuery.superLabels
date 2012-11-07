@@ -1,7 +1,7 @@
 /*
  *	Title: jQuery Super Labels Plugin - Give your forms a helping of awesome!
  *	Author: Rémy Bach
- *	Version: 1.1.2
+ *	Version: 1.1.3
  *	License: http://remybach.mit-license.org
  *	Url: http://github.com/remybach/jQuery.superLabels
  *	Description:
@@ -9,6 +9,7 @@
  */
 ;(function($) {
 	var defaults = {
+		autoCharLimit:false, // Whether to automatically attempt to determine the number of characters after which to fade the label out or not.
 		baseZindex:0, // The base z-index which we display on top of.
 		debug:false,
 		duration:500, // Time of the slide in milliseconds.
@@ -40,8 +41,7 @@
 
 		// If options were passed in, merge them with the defaults.
 		$.extend(defaults, options || {});
-		if (!$.easing.def) { _info('Easing plugin not found - using standard jQuery animations.'); }
-
+		
 		// Check for whether the user has just passed in the form. If so, we need to fetch all the accepted fields.
 		if (this.length === 1 && /form/i.test(this[0].tagName)) {
 			_fields = $(acceptedElements.join(','), this);
@@ -64,7 +64,6 @@
 
 			// Don't even bother going further if this isn't one of the accepted input field types or elements.
 			if ((_field[0].tagName.toLowerCase() === 'input' && $.inArray(_field.attr('type'), acceptedInputTypes)) === -1 && $.inArray(_field[0].tagName.toLowerCase(), acceptedElements) !== -1) {
-				_info('Doh! The following '+this.tagName.toLowerCase()+', is not supported.', this);
 				return true; // Equivalent to continue in a normal for loop.
 			}
 
@@ -91,7 +90,6 @@
 
 			// Make sure this form field has a label
 			if (_label.length === 0) {
-				_info('Doh! The following '+this.tagName.toLowerCase()+' has no related label.', this);
 				return true;
 			}
 
@@ -136,7 +134,9 @@
 
 	// Position the label.
 	_prepLabel = function(_field, _label) {
-		var opacity = 0;
+		var _charLimit,
+			_charLimitAttr = _field.data('slCharLimit'),
+			_opacity = 0;
 
 		// Handle drop down list labels differently
 		if (_field[0].tagName.match(/select/i)) {
@@ -149,18 +149,24 @@
 
 			_label.css('display','none');
 		} else {
+			// If we need to figure out the length automatically (and this field isn't specifically excluded),
+			//  or if this field is specifically requesting this functionality.
+			if (_charLimitAttr === 'auto' || (defaults.autoCharLimit && isNaN(_charLimitAttr))) {
+				_approximateChars(_field, _label);
+			}
+
 			// If the field is empty, make the label fully opaque.
 			if (_noVal(_field)) {
-				opacity = 1;
-			// Otherwise, if the field is not empty, but below the character count (if any), use the passed in option.
-			} else if (_withinCharCount(_field)) {
-				opacity = defaults.opacity;
+				_opacity = 1;
+			// Otherwise, if the field is not empty, but below the character limit (if any), use the passed in option.
+			} else if (_withinCharLimit(_field)) {
+				_opacity = defaults._opacity;
 			}
 
 			_field.css({ zIndex:defaults.baseZindex+1 }).addClass('sl_field');
 			_label.css({
 				left:_noVal(_field) ? defaults.labelLeft : $(_field).width()-_label.width(),
-				opacity:opacity,
+				opacity:_opacity,
 				position:'absolute',
 				top:defaults.labelTop,
 				zIndex:defaults.baseZindex+2
@@ -225,7 +231,7 @@
 		}
 
 		// If the field is empty and the label isn't showing, make it show up again.
-		if ( (_noVal(this) && _label.css('opacity') !== 0) || _withinCharCount(this) ) {
+		if ( (_noVal(this) && _label.css('opacity') !== 0) || _withinCharLimit(this) ) {
 			_o = defaults.opacity;
 		}
 
@@ -235,12 +241,12 @@
 	/*===== Utility Functions =====*/
 	// Tell us whether the form field has a value.
 	_noVal = function(_el) { return $(_el).val() === ''; };
-	// Tell us whether the form field meets a given character count (if necessary)
-	_withinCharCount = function(_el) {
-		var count = $(_el).data('slCharLimit');
+	// Tell us whether the form field meets a given character limit (if necessary)
+	_withinCharLimit = function(_el) {
+		var _limit = $(_el).data('slCharLimit');
 
 		// Stop here if there's no need to check for number of characters.
-		if (!count || typeof count !== 'number') {
+		if (!_limit || typeof _limit !== 'number') {
 			return false;
 		}
 
@@ -248,11 +254,37 @@
 		//	jQuery object-like Array, thus: grab the DOM element from it.
 		_el = _el.length ? _el[0] : _el;
 
-		return count && _el.value && _el.value.length <= count;
+		return _limit && _el.value && _el.value.length <= _limit;
 	};
+	// Attempt to automatically set up the character limit and attach it to the field.
+	_approximateChars = function(_field, _label) {
+		var _available,
+			_charLen,
+			_chars = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+			_properties = ["font-family", "font-size", "font-weight", "letter-spacing", "line-height", "text-shadow", "text-transform"],
+			_tmp = $('<div>'+_chars+'</div>');
 
-	// Console Functions (We need these to make sure this only displays when the console exists.)
-	_log = function() { if (defaults.debug && console && console.log) console.log.apply(console, arguments); };
-	_info = function() { if (defaults.debug && console && console.info) console.info.apply(console, arguments); };
-	_error = function() { if (defaults.debug && console && console.error) console.error.apply(console, arguments); };
+		// Loop through each of the defined properties so that we can get the font looking the same size.
+		// I know this isn't too great for performance, but for now I don't know of a better way to do this.
+		// If you do know of a better way, please hit me with a pull request.
+		$.each(_properties, function(i, _prop) {
+			_tmp.css(_prop, _field.css(_prop));
+		});
+
+		_tmp.css({
+			'position':'absolute', // so it's out of the document flow.
+			'visibility':'hidden' // so that it's not visible, but still takes up space in the DOM so we can grab the width
+		});
+
+		$('body').append(_tmp);
+		// Get the average length *per character*
+		_charLen = Math.round(_tmp.width() / _chars.length);
+		// Remove our temporary div from the DOM.
+		_tmp.remove();
+
+		_available = _field.width() - _label.width();
+
+		// Set the data-sl-char-limit attribute for this field to our approximated value.
+		_field.data('slCharLimit', Math.floor(_available / _charLen));
+	};
 })(jQuery);
