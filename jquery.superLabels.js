@@ -1,7 +1,7 @@
 /*
  *	Title: jQuery Super Labels Plugin - Give your forms a helping of awesome!
  *	Author: Rémy Bach
- *	Version: 1.2.1
+ *	Version: 1.2.2
  *	License: http://remybach.mit-license.org
  *	Url: http://github.com/remybach/jQuery.superLabels
  *	Description:
@@ -27,7 +27,8 @@
 		acceptedElements = ['input', 'textarea', 'select'];
 
 	$.fn.superLabels = function(options) {
-		var _fields = [];
+		var _fields = [],
+			_newDefaults;
 
 		// If this has been run on an empty set of elements, pop out.
 		if (this.length === 0) { return false; }
@@ -40,9 +41,15 @@
 			options.labelTop = Number(options.labelTop.replace(/\D+/, ''));
 		}
 
+		// Make a copy of the defaults.
+		_newDefaults = $.extend({}, defaults);
 		// If options were passed in, merge them with the defaults.
-		$.extend(defaults, options || {});
-		
+		//	Store them on each element so that they don't get overwritten by subsequent calls
+		// 	to superLabels.
+		$(this).data('slDefaults', $.extend(_newDefaults, options || {})).addClass('sl-defaults');
+
+		if (!$.easing.def) { _info('Easing plugin not found - using standard jQuery animations.'); }
+
 		// Check for whether the user has just passed in the form. If so, we need to fetch all the accepted fields.
 		if (this.length === 1 && /form/i.test(this[0].tagName)) {
 			_fields = $(acceptedElements.join(','), this);
@@ -68,6 +75,7 @@
 
 			// Don't even bother going further if this isn't one of the accepted input field types or elements.
 			if ((_field[0].tagName.toLowerCase() === 'input' && $.inArray(_field.attr('type'), acceptedInputTypes)) === -1 && $.inArray(_field[0].tagName.toLowerCase(), acceptedElements) !== -1) {
+				_info('Doh! The following '+this.tagName.toLowerCase()+', is not supported.', this);
 				return true; // Equivalent to continue in a normal for loop.
 			}
 
@@ -94,6 +102,7 @@
 
 			// Make sure this form field has a label
 			if (_label.length === 0) {
+				_info('Doh! The following '+this.tagName.toLowerCase()+' has no related label.', this);
 				return true;
 			}
 
@@ -121,12 +130,13 @@
 	/*========== Private Functions ==========*/
 	// Get the label for a given field.
 	_getLabel = function(_field) {
-		var _label = $(_field).siblings('label');
+		var _defaults = $(_field).closest('.sl-defaults').data('slDefaults'),
+			_label = $(_field).siblings('label');
 
 		if (_label.length === 0) {
 			// If a selector is present for the wrapping element, use that, otherwise, proceed to use more traditional methods.
-			if (defaults.wrapSelector) {
-				_label = $(_field).parents(defaults.wrapSelector).find('label');
+			if (_defaults.wrapSelector) {
+				_label = $(_field).parents(_defaults.wrapSelector).find('label');
 			} else {
 				_for = _field.id || _field.name;
 				_label = $('[for="'+_for+'"]');
@@ -140,6 +150,7 @@
 	_prepLabel = function(_field, _label) {
 		var _charLimit,
 			_charLimitAttr = _field.data('slCharLimit'),
+			_defaults = $(_field).closest('.sl-defaults').data('slDefaults'),
 			_opacity = 0,
 			_selected;
 
@@ -156,7 +167,7 @@
 		} else {
 			// If we need to figure out the length automatically (and this field isn't specifically excluded),
 			//  or if this field is specifically requesting this functionality.
-			if (_charLimitAttr === 'auto' || (defaults.autoCharLimit && isNaN(_charLimitAttr))) {
+			if (_charLimitAttr === 'auto' || (_defaults.autoCharLimit && isNaN(_charLimitAttr))) {
 				_approximateChars(_field, _label);
 			}
 
@@ -165,74 +176,77 @@
 				_opacity = 1;
 			// Otherwise, if the field is not empty, but below the character limit (if any), use the passed in option.
 			} else if (_withinCharLimit(_field)) {
-				_opacity = defaults._opacity;
+				_opacity = _defaults._opacity;
 			}
 
-			_field.css({ zIndex:defaults.baseZindex+1 }).addClass('sl_field');
+			_field.css({ zIndex:_defaults.baseZindex+1 }).addClass('sl_field');
 			_label.css({
-				left:_noVal(_field) ? defaults.labelLeft : $(_field).width()-_label.width(),
+				left:_noVal(_field) ? _defaults.labelLeft : $(_field).width()-_label.width(),
 				opacity:_opacity,
 				position:'absolute',
-				top:defaults.labelTop,
-				zIndex:defaults.baseZindex+2
+				top:_defaults.labelTop,
+				zIndex:_defaults.baseZindex+2
 			}).addClass('sl_label');
 		}
 	};
 
 	// The event handlers for the form fields.
 	_focus = function() {
-		var _duration = defaults.duration,
+		var _defaults = $(this).closest('.sl-defaults').data('slDefaults'),
+			_duration = _defaults.duration,
 			_label,
 			_to = { opacity:0 };
 
 		if (_noVal(this)) {
 			_label = _getLabel(this);			
 
-			if (defaults.noAnimate) {
+			if (_defaults.noAnimate) {
 				_label.hide();
 				return false;
 			}
 
-			if (defaults.slide) {
+			if (_defaults.slide) {
 				_to.left = $(this).width()-_label.width();
-				_to.opacity = defaults.opacity;
+				_to.opacity = _defaults.opacity;
 			} else {
-				_duration = defaults.fadeDuration;
+				_duration = _defaults.fadeDuration;
 			}
 
-			_label.stop(true,false).animate(_to, _duration, defaults.easingOut);
+			_label.stop(true,false).animate(_to, _duration, _defaults.easingOut);
 		}
 	};
 	_blur = function() {
-		var _duration = defaults.duration,
+		var _defaults = $(this).closest('.sl-defaults').data('slDefaults'),
+			_duration = _defaults.duration,
 			_label,
 			_to ={ opacity:1 };
 
 		if (_noVal(this)) {
 			_label = _getLabel(this);
 
-			if (defaults.noAnimate) {
+			if (_defaults.noAnimate) {
 				_label.show();
 				return false;
 			}
 
-			if (defaults.slide) {
-				_to.left = defaults.labelLeft;
+			if (_defaults.slide) {
+				_to.left = _defaults.labelLeft;
 			} else {
-				_duration = defaults.fadeDuration;
+				_duration = _defaults.fadeDuration;
 			}
 
-			_label.stop(true,false).animate(_to, _duration, defaults.easingOut);
+			_label.stop(true,false).animate(_to, _duration, _defaults.easingOut);
 		} else {
 			// If there is a value, and the label is visible, fire our _keyup function so as to hide it. (this semi-fixes the autofill bug)
 			_keyup.apply(this);
 		}
 	};
 	_keyup = function() {
-		var _label,
+		var _defaults = $(this).closest('.sl-defaults').data('slDefaults'),
+			_label,
 			_o = 0;
 
-		if (defaults.noAnimate) {
+		if (_defaults.noAnimate) {
 			return false; // We don't need any keyup checking done if we're not animating (the label would be in the way while trying to type).
 		}
 
@@ -245,10 +259,10 @@
 
 		// If the field is empty and the label isn't showing, make it show up again.
 		if ((_noVal(this) && _label.css('opacity') !== 0) || _withinCharLimit(this)) {
-			_o = defaults.opacity;
+			_o = _defaults.opacity;
 		}
 
-		_label.stop(true,false).animate({ opacity:_o }, defaults.fadeDuration, defaults.easingOut);
+		_label.stop(true,false).animate({ opacity:_o }, _defaults.fadeDuration, _defaults.easingOut);
 	};
 
 	/*===== Utility Functions =====*/
@@ -303,4 +317,9 @@
 		// Set the data-sl-char-limit attribute for this field to our approximated value.
 		_field.data('slCharLimit', Math.floor(_available / _charLen));
 	};
+
+	// Console Functions (We need these to make sure this only displays when the console exists.)
+	_log = function() { if (defaults.debug && console && console.log) console.log.apply(console, arguments); };
+	_info = function() { if (defaults.debug && console && console.info) console.info.apply(console, arguments); };
+	_error = function() { if (defaults.debug && console && console.error) console.error.apply(console, arguments); };
 })(jQuery);
