@@ -1,0 +1,52 @@
+body {
+	font-family:Ubuntu,Helvetica,Arial,sans;
+	padding:10px;
+}
+pre, code {
+	font-family:"Ubuntu Mono","Courier New",sans;
+}
+h1 {
+	margin-bottom:20px;
+}
+ul {
+	margin-bottom:0;
+	margin-left:0;
+}
+li {
+	list-style:none;
+	position:relative;
+}
+input, textarea { width:98%; }
+select {
+	margin-bottom:0;
+	width:100%;
+}
+form { margin-bottom:0; }
+/* Reset this from what's set by bootstrap */
+label { display:inline; }
+
+.container {
+	position:relative;
+}
+.fork {
+	border:0;
+	position:absolute;
+	right:0;
+	top:0;
+	z-index:2;
+}
+.bordered {
+	border:1px solid #777;
+	border:1px solid rgba(0, 0, 0, 0.2);
+	margin-bottom:20px;
+	min-height:20px;
+	padding:19px;
+	
+	-webkit-border-radius:4px;
+	-moz-border-radius:4px;
+	border-radius:4px;
+
+	-webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	-moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
