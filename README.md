@@ -70,7 +70,7 @@ For example, to make the label fade out only *after* 20 characters have been typ
 	<label for="text-input">Name</label>
 	<input type="text" name="text-input" value="" data-sl-char-limit="20" />
 
-As of version 1.1.3, you can now choose to let superLabels do the heavy lifting for you and let it automatically try to guess the character length☨. You can do this by using the above `autoCharLimit` option, _or_ by setting the `data-sl-char-limit` to `auto` for a given field.
+As of version 1.2.0, you can now choose to let superLabels do the heavy lifting for you and let it automatically try to guess the character length☨. You can do this by using the above `autoCharLimit` option, _or_ by setting the `data-sl-char-limit` to `auto` for a given field.
 
 The `autoCharLimit` option will be overridden by whatever is specified in the `data-sl-char-limit` attribute for that given element.
 

@@ -1,7 +1,7 @@
 /*
  *	Title: jQuery Super Labels Plugin - Give your forms a helping of awesome!
  *	Author: Rémy Bach
- *	Version: 1.1.3
+ *	Version: 1.2.0
  *	License: http://remybach.mit-license.org
  *	Url: http://github.com/remybach/jQuery.superLabels
  *	Description:
