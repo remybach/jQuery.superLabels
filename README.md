@@ -8,6 +8,10 @@ This method only really works for the following: input[type="text"], input[type=
 
 ☨ Uses the easing plugin if available.
 
+## Who's using it?
+
+[Here](https://github.com/remybach/jQuery.superLabels/blob/master/seen-on.md) is a list of sites that use Super Labels. If you've used this plugin and would like to add your site to the list either fork the project, update the file, and submit a pull request or [let me know](http://remy.bach.me.uk/get-in-touch) through my website.
+
 ## Demo
 
 A demo of some of the functionality can be found on my site [here](http://remy.bach.me.uk/superlabels_demo/), but is also included in the repository in the `demo` folder.
