@@ -25,7 +25,7 @@ form { margin-bottom:0; }
 /* Reset this from what's set by bootstrap */
 label { display:inline; }
 
-section > .span6:not(.intro) {
+section > .span8:not(.intro) {
 	border-top:1px dashed #777;
 	margin-top:20px;
 	padding-top:20px;
