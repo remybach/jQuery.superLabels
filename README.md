@@ -10,7 +10,7 @@ This method only really works for the following: input[type="text"], input[type=
 
 ## Demo
 
-Here's a (very) [simple demo](http://remy.bach.me.uk/superlabels_demo/) of Super Labels in action.
+A demo of some of the functionality can be found on my site [here](http://remy.bach.me.uk/superlabels_demo/), but is also included in the repository in the `demo` folder.
 
 ## Usage
 

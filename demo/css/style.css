@@ -25,6 +25,12 @@ form { margin-bottom:0; }
 /* Reset this from what's set by bootstrap */
 label { display:inline; }
 
+section > .span6:not(.intro) {
+	border-top:1px dashed #777;
+	margin-top:20px;
+	padding-top:20px;
+}
+
 .container {
 	position:relative;
 }
@@ -49,4 +55,56 @@ label { display:inline; }
 	-webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
 	-moz-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
 	box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Tweakable Section */
+.tweakable-container {
+	position:relative;
+}
+.tweakable-container pre,
+.tweakable-container pre * {
+	pointer-events:none;
+}
+.tweakable-container pre {
+	position:relative;
+	z-index:1;
+}
+.tweakable-container input,
+.tweakable-container select {
+	cursor:pointer;
+	font-size:12px;
+	height:8px;
+	position:absolute;
+	width:100px;
+	z-index:0;
+}
+.tweakable-container input:focus {
+	cursor:text;
+}
+.tweakable-container select:focus {
+	cursor:default;
+}
+.tweakable-container select {
+	height:auto;
+	width:150px;
+}
+.tweakable-container .duration {
+	left:130px;
+	top:50px;
+}
+.tweakable-container .fadeDuration {
+	left:158px;
+	top:105px;
+}
+.tweakable-container .opacity {
+	left:123px;
+	top:122px;
+}
+.tweakable-container .easingIn {
+	left:130px;
+	top:66px;
+}
+.tweakable-container .easingOut {
+	left:135px;
+	top:83px;
 }
