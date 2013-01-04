@@ -94,7 +94,7 @@ The way superLabels uses placeholders (as of version 1.1.1) is as follows:
 Below I'll list any bugs that I'm aware of and will try to get around to fixing as soon as I can.
 
 * Auto filling of form fields that is performed by some browsers (other than Chrome) causes a visual bug. Currently the label stays visible and positioned on top of the field while the field has a value. I've found a bug report for Firefox [here](https://bugzilla.mozilla.org/show_bug.cgi?id=184761).
-* Opacity bug with bold label text in IE. This was pointed out by [alensa](https://github.com/alensa) in [this bug](https://github.com/remybach/jQuery.superLabels/issues/11#issuecomment-11860664). The proposed fix is to add a background colour to the label in your CSS.
+* Opacity bug with bold label text in IE. This was pointed out by [alensa](https://github.com/alensa) in [this bug](https://github.com/remybach/jQuery.superLabels/issues/11). The proposed fix is to add a background colour to the label in your CSS.
 
 #### License
 
