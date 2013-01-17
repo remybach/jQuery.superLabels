@@ -1,0 +1,28 @@
+{
+	"name": "superLabels",
+	"version": "2.0.1",
+	"title": "jQuery Super Labels",
+	"author": {
+		"name": "Rémy Bach",
+		"url": "http://remy.bach.me.uk"
+	},
+	"licenses": [{
+		"type": "MIT",
+		"url": "http://remybach.mit-license.org/"
+	}],
+	"dependencies": {
+		"jquery": "*"
+	},
+	"description": "Give your forms a helping of awesome!",
+	"keywords": [
+		"form",
+		"forms",
+		"label",
+		"labels",
+		"usability"
+	],
+	"homepage": "https://github.com/remybach/jQuery.superLabels",
+	"docs": "https://github.com/remybach/jQuery.superLabels",
+	"demo": "http://remy.bach.me.uk/superlabels_demo/",
+	"bugs": "https://github.com/remybach/jQuery.superLabels/issues"
+}
