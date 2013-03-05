@@ -1,0 +1,25 @@
+{
+	"name": "jQuery.superLabels",
+	"version": "2.0.3",
+	"description": "Give your forms a helping of awesome!",
+	"homepage": "http://remy.bach.me.uk/superlabels_demo/",
+	"bugs": {
+		"url": "https://github.com/remybach/jQuery.superLabels/issues"
+	},
+	"contributors": [
+		{
+			"name": "Rémy Bach",
+			"url": "http://remy.bach.me.uk"
+		}
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/remybach/jQuery.superLabels"
+	},
+	"private": true,
+	"devDependencies": {
+		"grunt": "0.4.0rc7",
+		"grunt-contrib-jshint": "0.1.1",
+		"grunt-contrib-uglify": "0.1.1"
+	}
+}
