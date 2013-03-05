@@ -1,17 +1,22 @@
-/*
+/*global console */
+/*!
  *	Title: jQuery Super Labels Plugin - Give your forms a helping of awesome!
  *	Author: Rémy Bach
- *	Version: 2.0.2
+ *	Version: 2.0.3
  *	License: http://remybach.mit-license.org
  *	Url: http://github.com/remybach/jQuery.superLabels
  *	Description:
  *	This plugin allows you to display your form labels on top of your form fields, saving you space on your page.
  */
 ;(function($) {
+	'use strict';
+
 	var defaults = {
 			autoCharLimit:false, // Whether to automatically attempt to determine the number of characters after which to fade the label out or not.
 			baseZindex:0, // The base z-index which we display on top of.
+			/* nominify */
 			debug:false,
+			/* /nominify */
 			duration:500, // Time of the slide in milliseconds.
 			easingIn:($.easing && $.easing.def ? 'easeInOutCubic' : false), // The easing in function to use for the slide.
 			easingOut:($.easing && $.easing.def ? 'easeInOutCubic' : false), // The easing out function to use for the slide.
@@ -24,7 +29,10 @@
 			wrapSelector:false // The selector for the element you have wrapping each field.
 		},
 		acceptedInputTypes = ['text', 'search', 'url', 'tel', 'email', 'password', 'number'],
-		acceptedElements = ['input', 'textarea', 'select'];
+		acceptedElements = ['input', 'textarea', 'select'],
+
+		// Function declarations
+		_getLabel, _prepLabel, _focus, _blur, _keyup, _noVal, _withinCharLimit, _approximateChars/* nominify */,_log, _info, _error/* /nominify */;
 
 	$.fn.superLabels = function(options) {
 		var _fields = [],
@@ -48,7 +56,9 @@
 		// 	to superLabels.
 		$(this).data('slDefaults', $.extend(_newDefaults, options || {})).addClass('sl-defaults');
 
+		/* nominify */
 		if (!$.easing.def) { _info('Easing plugin not found - using standard jQuery animations.'); }
+		/* /nominify */
 
 		// Check for whether the user has just passed in the form. If so, we need to fetch all the accepted fields.
 		if (this.length === 1 && /form/i.test(this[0].tagName)) {
@@ -75,7 +85,9 @@
 
 			// Don't even bother going further if this isn't one of the accepted input field types or elements.
 			if ((_field[0].tagName.toLowerCase() === 'input' && $.inArray(_field.attr('type'), acceptedInputTypes)) === -1 && $.inArray(_field[0].tagName.toLowerCase(), acceptedElements) !== -1) {
+				/* nominify */
 				_info('Doh! The following '+this.tagName.toLowerCase()+', is not supported.', this);
+				/* /nominify */
 				return true; // Equivalent to continue in a normal for loop.
 			}
 
@@ -102,7 +114,9 @@
 
 			// Make sure this form field has a label
 			if (_label.length === 0) {
+				/* nominify */
 				_info('Doh! The following '+this.tagName.toLowerCase()+' has no related label.', this);
+				/* /nominify */
 				return true;
 			}
 
@@ -131,7 +145,8 @@
 	// Get the label for a given field.
 	_getLabel = function(_field) {
 		var _defaults = $(_field).closest('.sl-defaults').data('slDefaults'),
-			_label = $(_field).siblings('label');
+			_label = $(_field).siblings('label'),
+			_for;
 
 		if (_label.length === 0) {
 			// If a selector is present for the wrapping element, use that, otherwise, proceed to use more traditional methods.
@@ -148,8 +163,7 @@
 
 	// Position the label.
 	_prepLabel = function(_field, _label) {
-		var _charLimit,
-			_charLimitAttr = _field.data('slCharLimit'),
+		var _charLimitAttr = _field.data('slCharLimit'),
 			_defaults = $(_field).closest('.sl-defaults').data('slDefaults'),
 			_opacity = 0,
 			_selected;
@@ -198,7 +212,7 @@
 			_to = { opacity:0 };
 
 		if (_noVal(this)) {
-			_label = _getLabel(this);			
+			_label = _getLabel(this);
 
 			if (_defaults.noAnimate) {
 				_label.hide();
@@ -288,7 +302,7 @@
 	_approximateChars = function(_field, _label) {
 		var _available,
 			_charLen,
-			_chars = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+			_chars = '1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
 			_properties = ["font-family", "font-size", "font-weight", "letter-spacing", "line-height", "text-shadow", "text-transform"],
 			_tmp = $('<div>'+_chars+'</div>');
 
@@ -318,8 +332,22 @@
 		_field.data('slCharLimit', Math.floor(_available / _charLen));
 	};
 
+	/* nominify */
 	// Console Functions (We need these to make sure this only displays when the console exists.)
-	_log = function() { if (defaults.debug && console && console.log) console.log.apply(console, arguments); };
-	_info = function() { if (defaults.debug && console && console.info) console.info.apply(console, arguments); };
-	_error = function() { if (defaults.debug && console && console.error) console.error.apply(console, arguments); };
+	_log = function() {
+		if (defaults.debug && console && console.log) {
+			console.log.apply(console, arguments);
+		}
+	};
+	_info = function() {
+		if (defaults.debug && console && console.info) {
+			console.info.apply(console, arguments);
+		}
+	};
+	_error = function() {
+		if (defaults.debug && console && console.error) {
+			console.error.apply(console, arguments);
+		}
+	};
+	/* /nominify */
 })(jQuery);
