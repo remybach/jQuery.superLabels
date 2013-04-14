@@ -41,14 +41,6 @@
 		// If this has been run on an empty set of elements, pop out.
 		if (this.length === 0) { return false; }
 
-		// Remove any NaNs from the positions (if present)
-		if (options && options.labelLeft && isNaN(options.labelLeft)) {
-			options.labelLeft = Number(options.labelLeft.replace(/\D+/, ''));
-		}
-		if (options && options.labelTop && isNaN(options.labelTop)) {
-			options.labelTop = Number(options.labelTop.replace(/\D+/, ''));
-		}
-
 		// Make a copy of the defaults.
 		_newDefaults = $.extend({}, defaults);
 		// If options were passed in, merge them with the defaults.
