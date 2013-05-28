@@ -53,8 +53,8 @@ module.exports = function(grunt) {
 		checkBanner: {
 			filename: 'jquery.superLabels.js'
 		},
-		checkjQueryJSON: {
-			filename: 'superLabels.jquery.json'
+		updateVersion: {
+			files: [ 'superLabels.jquery.json', 'bower.json' ]
 		},
 		minify: {
 			dest: 'jquery.superLabels.min.js',
@@ -77,5 +77,5 @@ module.exports = function(grunt) {
 	grunt.loadTasks('tasks');
 
 	// Default task - Run JS Hint, check the version in the jquery.json file matches what's in packages.json, update the banner in the superlabels file, and minify.
-	grunt.registerTask('default', ["jshint", "checkjQueryJSON", "checkBanner", "minify"]);
+	grunt.registerTask('default', ["jshint", "updateVersion", "checkBanner", "minify"]);
 };
