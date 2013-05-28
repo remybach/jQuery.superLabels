@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 
 			json.version = grunt.config('meta.version');
 
-			grunt.file.write(filename, JSON.stringify(json));
+			grunt.file.write(filename, JSON.stringify(json, null, 4));
 
 			grunt.log.writeln('Done updating version in: '+filename);
 		}
